@@ -21,7 +21,7 @@ const Video = sequelize.define("Video", {
     allowNull: false,
   },
   status: {
-    type: DataTypes.ENUM("pending", "processed", "failed"),
+    type: DataTypes.ENUM(queued | downloading | processing | done | failed),
     allowNull: false,
     defaultValue: "pending",
   },
@@ -39,3 +39,7 @@ const Video = sequelize.define("Video", {
     tableName: "videos",
   }
 );
+
+Video.belongsTo(User, { foreignKey: "userid" });
+
+export default Video;
