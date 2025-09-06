@@ -7,8 +7,8 @@ const UserProgress = sequelize.define("UserProgress", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrem,
-    ent: true,
+    autoIncrement: true,
+    allowNull: false,
   },
   userId: {
     type: DataTypes.INTEGER,
@@ -19,7 +19,7 @@ const UserProgress = sequelize.define("UserProgress", {
     },
   },
   videoId: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: Video,

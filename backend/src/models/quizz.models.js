@@ -9,7 +9,7 @@ const Quizz = sequelize.define("Quizz", {
     autoIncrement: true,
   },
   Videoid: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: Video,

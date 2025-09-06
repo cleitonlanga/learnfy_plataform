@@ -2,6 +2,10 @@ import dotenv from "dotenv";
 import sequelize from "./config/db.js";
 import app from "./app.js";
 import User from "./models/user.models.js";
+import Quiz from "./models/quizz.models.js";
+import Transcription from "./models/transcription.models.js";
+import Video from "./models/video.models.js";
+import UserProgress from "./models/userProgress.models.js";
 
 dotenv.config();
 const PORT = process.env.DB_PORT || 8080;

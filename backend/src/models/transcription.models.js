@@ -9,7 +9,7 @@ const Transcription = sequelize.define("Transcription", {
     autoIncrement: true,
   },
   videoId: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: Video,
