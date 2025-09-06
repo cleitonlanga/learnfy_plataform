@@ -33,5 +33,9 @@ const Video = sequelize.define("Video", {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW,
-  },
-});
+  }}
+  ,{
+    timestamps: false,
+    tableName: "videos",
+  }
+);
