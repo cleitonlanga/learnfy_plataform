@@ -8,7 +8,7 @@ import Video from "./models/video.models.js";
 import UserProgress from "./models/userProgress.models.js";
 
 dotenv.config();
-const PORT = process.env.DB_PORT || 8080;
+const PORT = process.env.APP_PORT || 5000;
 
 // Start the server
 (async () => {
