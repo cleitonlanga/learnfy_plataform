@@ -50,5 +50,6 @@ const Video = sequelize.define(
 );
 
 Video.belongsTo(User, { foreignKey: "userid" });
+User.hasMany(Video, { foreignKey: "userid" });
 
 export default Video;

@@ -37,5 +37,6 @@ const Quizz = sequelize.define("Quizz", {
 });
 
 Quizz.belongsTo(Video, { foreignKey: "Videoid" });
+Video.hasMany(Quizz, { foreignKey: "Videoid" });
 
 export default Quizz;
