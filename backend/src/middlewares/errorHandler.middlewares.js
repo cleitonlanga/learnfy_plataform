@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-export const errorHandler = () => {
+export const errorHandler = (err, res) => {
   return (err, req, res, next) => {
     try {
       console.error("Error:", err);
