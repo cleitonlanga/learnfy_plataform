@@ -15,7 +15,7 @@ const PORT = process.env.APP_PORT || 5000;
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: false }); // { force: true } to drop and recreate tables
     console.log("All models were synchronized successfully.");
 
     app.listen(PORT, () => {
