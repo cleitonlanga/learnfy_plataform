@@ -18,9 +18,13 @@ const Video = sequelize.define(
         key: "id",
       },
     },
-    youtubeUrl: {
-      type: DataTypes.STRING,
+    sourceType: {
+      type: DataTypes.ENUM("youtube", "upload", "external"),
       allowNull: false,
+    },
+    sourceValue: {
+      type: DataTypes.STRING,
+      allowNull: false, // se youtube → URL, se upload → filePath
     },
     status: {
       type: DataTypes.ENUM(
