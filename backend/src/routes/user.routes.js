@@ -1,5 +1,4 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import { protect } from "../middlewares/auth.middlewares.js";
 import * as UserController from "../controllers/user.controllers.js";
 import dotenv from "dotenv";
