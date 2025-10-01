@@ -9,6 +9,11 @@ const User = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -22,7 +27,7 @@ const User = sequelize.define(
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     role: {
       type: DataTypes.ENUM("user", "admin"),
