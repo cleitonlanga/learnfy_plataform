@@ -7,6 +7,7 @@ import {
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import passport from "./config/passport.js";
+import videoRoutes from "./routes/video.routes.js";
 
 const app = express();
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(passport.initialize());
 //Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/videos", videoRoutes);
 
 //Middlewares
 app.use(notFound());
