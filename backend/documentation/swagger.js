@@ -26,7 +26,7 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  apis: ["./src/routes/*.js"], // Aqui você coloca onde estão suas rotas
+  apis: ["./src/routes/*.js"], 
 };
 
 const swaggerSpec = swaggerJSDoc(options);
