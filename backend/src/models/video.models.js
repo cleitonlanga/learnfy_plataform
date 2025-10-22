@@ -32,7 +32,8 @@ const Video = sequelize.define(
         "downloading",
         "pending",
         "done",
-        "failed"
+        "failed",
+        "transcribing"
       ),
       allowNull: false,
       defaultValue: "pending",
