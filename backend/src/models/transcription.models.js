@@ -21,9 +21,9 @@ const Transcription = sequelize.define("Transcription", {
     allowNull: false,
   },
   content: {
-    type: DataTypes.TEXT,
+    type: DataTypes.TEXT("long"),
     allowNull: false,
-  },
+  },        
   content_json: {
     type: DataTypes.JSON,
     allowNull: true,
