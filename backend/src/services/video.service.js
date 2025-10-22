@@ -5,14 +5,13 @@ import axios from "axios";
 import ffmpeg from "fluent-ffmpeg";
 import { v4 as uuidv4 } from "uuid";
 import Video from "../models/video.models.js";
-import { execSync } from "child_process";
 import PQueue from "p-queue";
 import dotenv from "dotenv";
 import { validateYoutubeUrl } from "../middlewares/validateUrl.middleware.js";
 
 dotenv.config();
 
-const queue = new PQueue({ concurrency: 1 });
+const queue = new PQueue({ concurrency: 1 });// concurrency is the number of videos that can be processed at the same time
 
 let ffmpegPath = process.env.FFMPEG_PATH || "ffmpeg";
 let ffprobePath = process.env.FFPROBE_PATH || "ffprobe";
