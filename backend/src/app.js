@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import passport from "./config/passport.js";
 import videoRoutes from "./routes/video.routes.js";
+import Transcription from "./routes/transcription.routes.js";
 import { setupSwagger } from "../documentation/swagger.js";
 
 const app = express();
@@ -19,13 +20,12 @@ app.use(passport.initialize());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
+app.use("/api/transcriptions", Transcription);
 // Swagger
 setupSwagger(app);
 
 //Middlewares
 app.use(notFound());
 app.use(errorHandler());
-
-
 
 export default app;
