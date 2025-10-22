@@ -1,4 +1,4 @@
-import UserService from "../services/user.services.js";
+import UserService from "../services/user.service.js";
 import { errorHandler } from "../middlewares/errorHandler.middlewares.js";
 import User from "../models/user.models.js";
 
