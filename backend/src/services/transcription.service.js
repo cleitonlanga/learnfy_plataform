@@ -4,11 +4,14 @@ import axios from "axios";
 import PQueue from "p-queue";
 import Transcription from "../models/transcription.models.js";
 import Video from "../models/video.models.js";
+import VideoService from "../services/video.service.js";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import ffmpeg from "fluent-ffmpeg";
 import { v4 as uuidv4 } from "uuid";
 import { GoogleGenAI } from "@google/genai";
+
+const videoService = new VideoService(Video);
 
 dotenv.config();
 
@@ -37,7 +40,7 @@ class TranscriptionService {
       .catch(async (err) => {
         console.error("Transcription job failed:", err);
         try {
-          await this.updateVideo(video.id, { status: "failed" });
+          await videoService.updateVideo(video.id, { status: "failed" });
         } catch (error) {
           console.error("Error updating video status:", error);
         }
@@ -132,12 +135,13 @@ class TranscriptionService {
       fs.createReadStream(resolved),
       {
         headers: {
-          Authorization: `Bearer ${ASSEMBLYAI_KEY}`,
+          Authorization: ASSEMBLYAI_KEY,
           "Content-Type": "application/octet-stream",
         },
         // Set to 1GB to avoid memory issues; adjust as needed for your use case
         maxContentLength: 1_000_000_000,
         maxBodyLength: 1_000_000_000,
+        timeout: 5 * 60_000, // 5 minutes
       }
     );
     if (!resp.data.upload_url)
@@ -167,7 +171,7 @@ class TranscriptionService {
 
     const resp = await axios.post(`${ASSEMBLYAI_BASE}/transcript`, body, {
       headers: {
-        Authorization: `Bearer ${ASSEMBLYAI_KEY}`,
+        Authorization: ASSEMBLYAI_KEY,
         "Content-Type": "application/json",
       },
     });
@@ -200,7 +204,7 @@ class TranscriptionService {
     let retries = 0;
     while (retries < maxRetries) {
       const resp = await axios.get(`${ASSEMBLYAI_BASE}/transcript/${jobId}`, {
-        headers: { Authorization: `Bearer ${ASSEMBLYAI_KEY}` },
+        headers: { Authorization: ASSEMBLYAI_KEY },
       });
       const data = resp.data;
 
@@ -254,7 +258,9 @@ class TranscriptionService {
       for (let i = 0; i < chunks.length; i++) {
         const chunkPath = chunks[i];
         console.log(`Uploading chunk ${i + 1}/${chunks.length}: ${chunkPath}`);
-
+        console.log(
+          `[Upload] ${((i / chunks.length) * 100).toFixed(1)}% concluído`
+        );
         const uploadUrl = await this.uploadSingleFileToAssemblyAI(chunkPath);
         console.log("Uploaded chunk URL:", uploadUrl);
 
