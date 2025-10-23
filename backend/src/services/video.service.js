@@ -11,7 +11,7 @@ import { validateYoutubeUrl } from "../middlewares/validateUrl.middleware.js";
 
 dotenv.config();
 
-const queue = new PQueue({ concurrency: 1 });// concurrency is the number of videos that can be processed at the same time
+const queue = new PQueue({ concurrency: 1 }); // concurrency is the number of videos that can be processed at the same time
 
 let ffmpegPath = process.env.FFMPEG_PATH || "ffmpeg";
 let ffprobePath = process.env.FFPROBE_PATH || "ffprobe";
@@ -68,10 +68,12 @@ class VideoService {
   }
 
   async enqueueVideo(video, file) {
-    queue.add(() => this.processVideo(video, file)).catch(async (err) => {
-      console.error("Error processing queued video:", err);
-      await this.updateVideo(video.id, { status: "failed" });
-    });
+    queue
+      .add(() => this.processVideo(video, file))
+      .catch(async (err) => {
+        console.error("Error processing queued video:", err);
+        await this.updateVideo(video.id, { status: "failed" });
+      });
   }
 
   async processVideo(video, file) {
@@ -128,19 +130,30 @@ class VideoService {
   }
 
   async downloadAudioFromYoutube(url, filename) {
+    const cleanUrl = url.split("&")[0];
+
     const tempPath = path.resolve("uploads/tmp", filename);
     const finalPath = path.resolve("uploads/audio", filename);
 
-    await youtubeDl(url, {
-      extractAudio: true,
-      audioFormat: "mp3",
-      audioQuality: 0,
-      output: tempPath,
-      ffmpegLocation: ffmpegPath,
-    });
+    try {
+      await youtubeDl(cleanUrl, {
+        extractAudio: true,
+        audioFormat: "mp3",
+        audioQuality: 0,
+        output: tempPath,
+        ffmpegLocation: ffmpegPath,
+      });
 
-    fs.renameSync(tempPath, finalPath);
-    return finalPath;
+      fs.renameSync(tempPath, finalPath);
+      return finalPath;
+    } catch (error) {
+      try {
+        fs.unlink(tempPath);
+      } catch {}
+      throw new Error(
+        "Failed to download audio from YouTube: " + error.message
+      );
+    }
   }
 
   async downloadAudioFromUrl(url, filename) {
